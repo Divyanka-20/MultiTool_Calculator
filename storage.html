@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Transaction History</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Last 10 Transactions</h1>
+  <ul id="history-list"></ul>
+
+  <button onclick="clearHistory()">Clear History</button>
+  <br /><br />
+  <a href="index.html">Back to Home</a>
+
+  <script>
+    function renderHistory() {
+      const historyList = document.getElementById('history-list');
+      const logs = JSON.parse(localStorage.getItem('calculator_logs')) || [];
+
+      historyList.innerHTML = '';
+
+      if (logs.length === 0) {
+        historyList.innerHTML = '<li>No transactions found.</li>';
+        return;
+      }
+
+      logs.forEach(entry => {
+        const li = document.createElement('li');
+        li.textContent = entry;
+        historyList.appendChild(li);
+      });
+    }
+
+    function clearHistory() {
+      if (confirm('Are you sure you want to clear the transaction history?')) {
+        localStorage.removeItem('calculator_logs');
+        renderHistory();
+      }
+    }
+
+    // Render history on page load
+    window.onload = renderHistory;
+  </script>
+</body>
+</html>
